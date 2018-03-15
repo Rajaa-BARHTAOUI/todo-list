@@ -12,6 +12,7 @@ export class MyApp {
   rootPage: any = 'AuthPage';
   user: User;
   @ViewChild(Nav) nav: Nav;
+  activePage: string;
 
   constructor(platform: Platform, app: App, statusBar: StatusBar, splashScreen: SplashScreen,
     private _AuthProvider: AuthProvider) {
@@ -23,7 +24,8 @@ export class MyApp {
       splashScreen.hide();
     });
     app.viewDidLoad.subscribe(view => {
-      console.log(view);
+      this.activePage = view.id;
+      console.log(this.activePage);
       this.getUserData();
     })
   }
@@ -42,8 +44,13 @@ export class MyApp {
     this.nav.setRoot('HomePage');
   }
 
-  goToMySharedNotes() { 
+  goToShareMyNotes() {
+    this.nav.setRoot('ShareMyNotesPage');
   }
+
+  goToMySharedNotes() {
+  }
+
   signOut() {
     this.nav.setRoot('AuthPage').then(_ => this._AuthProvider.signOut())
       .catch(err => console.log('error:', err));
