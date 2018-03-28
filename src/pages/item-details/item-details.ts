@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 import { Item, TodoList } from '../../models';
 import { TodoListProvider } from '../../core';
-import { AlertProvider } from '../../shared';
+import { AlertProvider, ImageProvider } from '../../shared';
 
 /**
  * Generated class for the ItemDetailsPage page.
@@ -22,38 +22,42 @@ export class ItemDetailsPage {
   _item: Item;
 
   constructor(private navParams: NavParams, private viewCtrl: ViewController, private _TodoListProvider: TodoListProvider,
-    private alert: AlertProvider ) {
+    private alert: AlertProvider, private imgProvider: ImageProvider) {
   }
 
   ngOnInit() {
     this._item = new Item();
     this._AddOrEdit = !!this.navParams.get('addOrEdit');
     this.todoList = this.navParams.get('todoList');
-    if (!this._AddOrEdit) this._item = this.navParams.get('item');    
+    if (!this._AddOrEdit) this._item = this.navParams.get('item');
   }
   addItem() {
     this._TodoListProvider
-    .addItem(this.todoList, this._item)
-    .then(_ => {
-      this.alert.presentToast('Note succesfuly added');
-      this.leave();
-    })
-    .catch(err => {
-      this.alert.presentToast('Something wrong happened');
-      this.leave();
-    });
+      .addItem(this.todoList, this._item)
+      .then(_ => {
+        this.alert.presentToast('Note succesfuly added');
+        this.leave();
+      })
+      .catch(err => {
+        this.alert.presentToast('Something wrong happened');
+        this.leave();
+      });
   }
   updateItem() {
     this._TodoListProvider
-    .updateItem(this.todoList, this._item)
-    .then(_ => {
-      this.alert.presentToast('Note succesfuly updated');
-      this.leave();
-    })
-    .catch(err => {
-      this.alert.presentToast('Something wrong happened');
-      this.leave();
-    });
+      .updateItem(this.todoList, this._item)
+      .then(_ => {
+        this.alert.presentToast('Note succesfuly updated');
+        this.leave();
+      })
+      .catch(err => {
+        this.alert.presentToast('Something wrong happened');
+        this.leave();
+      });
+  }
+
+  uploadImage() {
+    this.imgProvider.uploadImg();
   }
 
   leave(noChange?) {
